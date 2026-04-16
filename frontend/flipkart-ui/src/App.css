@@ -1,0 +1,33 @@
+body {
+  margin: 0;
+  background: #f1f3f6;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1;
+}
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #2874f0;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 6px;
+  z-index: 999;
+}
+
+.clear-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
