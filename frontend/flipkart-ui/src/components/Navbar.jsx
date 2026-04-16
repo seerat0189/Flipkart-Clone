@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
 
+import { FiShoppingCart } from "react-icons/fi";
+
 const Navbar = () => {
   const navigate = useNavigate();
-
   const [query, setQuery] = useState("");
 
   const { cartCount } = useCart();
@@ -44,12 +45,16 @@ const Navbar = () => {
         <div className="nav-item">Become a Seller</div>
 
         <div className="cart" onClick={() => navigate("/cart")}>
-          🛒 <span>Cart</span>
+
+          <FiShoppingCart className="cart-icon" />
+
+          <span>Cart</span>
 
           {cartCount > 0 && (
             <span className="cart-badge">{cartCount}</span>
           )}
         </div>
+
       </div>
 
     </div>
