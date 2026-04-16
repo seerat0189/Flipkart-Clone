@@ -1,7 +1,7 @@
 import "../styles/ProductCard.css";
 import { useNavigate } from "react-router-dom";
 
-const ProductCard = ({ product, addToCart }) => {
+const ProductCard = ({ product }) => {
   const navigate = useNavigate();
 
   const discount = Math.floor(Math.random() * 40) + 10;
@@ -20,42 +20,34 @@ const ProductCard = ({ product, addToCart }) => {
     : "https://dummyimage.com/200x200/cccccc/000000&text=Product";
 
   return (
-    <div className="card">
+    <div
+      className="card"
+      onClick={() => navigate(`/product/${product.id}`)}
+    >
 
       <span className="badge">{discount}% OFF</span>
 
-      <div
-        className="click-area"
-        onClick={() => navigate(`/product/${product.id}`)}
-      >
-        <img
-          src={imageUrl}
-          alt={product.name}
-          onError={(e) => {
-            e.target.src =
-              "https://dummyimage.com/200x200/cccccc/000000&text=No+Image";
-          }}
-        />
+      <img
+        src={imageUrl}
+        alt={product.name}
+        onError={(e) => {
+          e.target.src =
+            "https://dummyimage.com/200x200/cccccc/000000&text=No+Image";
+        }}
+      />
 
-        <p className="title">{product.name}</p>
+      <p className="title">{product.name}</p>
 
-        <div className="rating">4.5 ⭐</div>
+      <div className="rating">4.5 ⭐</div>
 
-        <div className="price-section">
-          <span className="price">₹{formatPrice(product.price)}</span>
-          <span className="old-price">₹{formatPrice(originalPrice)}</span>
-        </div>
+      <div className="price-section">
+        <span className="price">₹{formatPrice(product.price)}</span>
+        <span className="old-price">₹{formatPrice(originalPrice)}</span>
       </div>
 
-      <button
-        disabled={product.stockQuantity === 0}
-        onClick={(e) => {
-          e.stopPropagation();
-          addToCart(product.id);
-        }}
-      >
-        {product.stockQuantity === 0 ? "Out of Stock" : "Add to Cart"}
-      </button>
+      <p className={`stock ${product.stockQuantity === 0 ? "out" : ""}`}>
+        {product.stockQuantity === 0 ? "Out of Stock" : "In Stock"}
+      </p>
 
     </div>
   );
