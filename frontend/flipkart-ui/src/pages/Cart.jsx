@@ -24,12 +24,16 @@ const Cart = () => {
   }, []);
 
   const updateQuantity = async (id, quantity) => {
-    if (quantity < 1) return;
-
     try {
-      await API.put(`/cart/${id}`, { quantity });
+      if (quantity < 1) {
+        await API.delete(`/cart/${id}`);
+      } else {
+        await API.put(`/cart/${id}`, { quantity });
+      }
+
       await fetchCart();
       refreshBadge();
+
     } catch (err) {
       console.log(err);
     }
