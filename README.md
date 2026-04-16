@@ -129,6 +129,15 @@ npm run dev
 ```bash
 cd frontend
 npm install
+
+Create `.env` file:
+
+```env
+VITE_API_URL=http://localhost:5005/api
+```
+Run frontend:
+
+```bash
 npm run dev
 ```
 
@@ -153,9 +162,9 @@ npm run dev
 
 ## 🚀 Deployment
 
-Frontend: Vercel / Netlify
-Backend: Render / Railway
-Database: Supabase / Neon
+Frontend: Vercel
+Backend: Render
+Database: Neon
 
 ---
 
