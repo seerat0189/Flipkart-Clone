@@ -31,7 +31,7 @@ const ProductPage = () => {
         quantity: 1
       });
 
-      fetchCart();
+      await fetchCart();
 
       setMessage("Added to cart");
       setTimeout(() => setMessage(""), 2000);
@@ -42,6 +42,13 @@ const ProductPage = () => {
       console.log(err);
       setLoading(false);
     }
+  };
+
+  const handleBuyNow = async () => {
+    if (loading) return;
+
+    await addToCart();
+    navigate("/cart");
   };
 
   if (!product) return <p>Loading...</p>;
@@ -70,19 +77,21 @@ const ProductPage = () => {
           <button
             className="cart-btn"
             onClick={addToCart}
-            disabled={product.stockQuantity === 0}
+            disabled={product.stockQuantity === 0 || loading}
           >
-            {product.stockQuantity === 0 ? "Out of Stock" : "Add to Cart"}
+            {product.stockQuantity === 0
+              ? "Out of Stock"
+              : loading
+              ? "Adding..."
+              : "Add to Cart"}
           </button>
 
           <button
             className="buy-btn"
-            onClick={() => {
-              addToCart();
-              navigate("/cart");
-            }}
+            onClick={handleBuyNow}
+            disabled={product.stockQuantity === 0 || loading}
           >
-            Buy Now
+            {loading ? "Processing..." : "Buy Now"}
           </button>
         </div>
       </div>
