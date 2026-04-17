@@ -177,17 +177,22 @@ async function main() {
     ]
   };
 
-  const extraProducts = Array.from({ length: 50 }).map((_, i) => {
-    const category = categories[i % categories.length];
+  const extraProducts = [];
+
+  categories.forEach(category => {
     const nameList = namesMap[category];
     const images = imageMap[category];
 
-    return {
-      name: `${nameList[i % nameList.length]}`,
-      price: Math.floor(Math.random() * 5000) + 200,
-      category,
-      image: images[i % images.length]
-    };
+    const count = Math.min(nameList.length, images.length);
+
+    for (let i = 0; i < count; i++) {
+      extraProducts.push({
+        name: nameList[i],
+        price: Math.floor(Math.random() * 5000) + 200,
+        category,
+        image: images[i]
+      });
+    }
   });
 
   const finalProducts = [...baseProducts, ...extraProducts];

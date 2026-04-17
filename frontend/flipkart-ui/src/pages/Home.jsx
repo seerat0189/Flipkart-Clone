@@ -11,6 +11,7 @@ import "../styles/Home.css";
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [message, setMessage] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("For You");
 
   const { fetchCart } = useCart();
 
@@ -24,9 +25,24 @@ const Home = () => {
       .catch(err => console.log(err));
   }, []);
 
-  const filteredProducts = products.filter(p =>
-    p.name.toLowerCase().includes(searchQuery)
+  const filteredProducts = products.filter((p) => {
+    const matchesSearch = p.name.toLowerCase().includes(searchQuery);
+
+    if (selectedCategory === "For You") {
+      return matchesSearch;
+    }
+
+    return matchesSearch && p.category === selectedCategory;
+  });
+
+  const uniqueProducts = Array.from(
+    new Map(filteredProducts.map(p => [p.id, p])).values()
   );
+
+  const section1 = products.slice(0, 6);
+  const section2 = products.slice(6, 12);
+  const section3 = products.slice(12, 18);
+  const section4 = products.slice(18, 24);
 
   const addToCart = async (id) => {
     try {
@@ -47,55 +63,57 @@ const Home = () => {
 
   return (
     <>
-      <CategoryBar />
+      <CategoryBar
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+      />
+
       <Hero />
 
       {message && <div className="toast">{message}</div>}
 
       {searchQuery ? (
         <div className="product-feed">
-          {filteredProducts.length === 0 ? (
+          {uniqueProducts.length === 0 ? (
             <h2 style={{ padding: "20px" }}>No products found</h2>
           ) : (
-            filteredProducts.map(p => (
+            uniqueProducts.map(p => (
               <ProductCard key={p.id} product={p} addToCart={addToCart} />
             ))
           )}
         </div>
       ) : (
         <>
-          <Section title="Grab or Gone" bg="#e6f4ea">
-            {products.slice(0, 6).map(p => (
-              <ProductCard key={p.id} product={p} addToCart={addToCart} />
-            ))}
-          </Section>
+          {selectedCategory === "For You" && (
+            <>
+              <Section title="Grab or Gone" bg="#e6f4ea">
+                {section1.map(p => (
+                  <ProductCard key={p.id} product={p} addToCart={addToCart} />
+                ))}
+              </Section>
 
-          <Section title="Best Gadgets & Appliances" bg="#f3e8ff">
-            {products.slice(6, 12).map(p => (
-              <ProductCard key={p.id} product={p} addToCart={addToCart} />
-            ))}
-          </Section>
+              <Section title="Best Gadgets & Appliances" bg="#f3e8ff">
+                {section2.map(p => (
+                  <ProductCard key={p.id} product={p} addToCart={addToCart} />
+                ))}
+              </Section>
 
-          <Section title="Top Picks of the Sale" bg="#e0f2fe">
-            {products.slice(12, 18).map(p => (
-              <ProductCard key={p.id} product={p} addToCart={addToCart} />
-            ))}
-          </Section>
+              <Section title="Top Picks of the Sale" bg="#e0f2fe">
+                {section3.map(p => (
+                  <ProductCard key={p.id} product={p} addToCart={addToCart} />
+                ))}
+              </Section>
 
-          <Section title="Trending Products" bg="#fff7ed">
-            {products.slice(18, 24).map(p => (
-              <ProductCard key={p.id} product={p} addToCart={addToCart} />
-            ))}
-          </Section>
-
-          <Section title="Fashion Deals" bg="#fce7f3">
-            {products.slice(0, 6).map(p => (
-              <ProductCard key={p.id} product={p} addToCart={addToCart} />
-            ))}
-          </Section>
+              <Section title="Trending Products" bg="#fff7ed">
+                {section4.map(p => (
+                  <ProductCard key={p.id} product={p} addToCart={addToCart} />
+                ))}
+              </Section>
+            </>
+          )}
 
           <div className="product-feed">
-            {products.map(p => (
+            {uniqueProducts.map(p => (
               <ProductCard key={p.id} product={p} addToCart={addToCart} />
             ))}
           </div>

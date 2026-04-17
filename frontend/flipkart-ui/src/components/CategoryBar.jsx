@@ -1,6 +1,10 @@
 import "../styles/CategoryBar.css";
 
 const categories = [
+  { 
+    name: "For You", 
+    img: "https://cdn-icons-png.flaticon.com/512/1828/1828884.png" 
+  },
   {
     name: "Grocery",
     img: "https://cdn-icons-png.flaticon.com/512/3081/3081559.png"
@@ -39,11 +43,15 @@ const categories = [
   }
 ];
 
-const CategoryBar = () => {
+const CategoryBar = ({ selectedCategory, setSelectedCategory }) => {
   return (
     <div className="category-bar">
-      {categories.map((cat, i) => (
-        <div key={i} className="category-item">
+      {categories.map((cat) => (
+        <div
+          key={cat.name}
+          className={`category-item ${selectedCategory === cat.name ? "active" : ""}`}
+          onClick={() => setSelectedCategory(cat.name)}
+        >
           <img src={cat.img} alt={cat.name} />
           <p>{cat.name}</p>
         </div>
