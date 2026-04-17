@@ -6,6 +6,11 @@
   background: #2874f0;
   color: white;
   flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: 60px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 .nav-left {
@@ -90,6 +95,7 @@
     flex-direction: column;
     gap: 10px;
     padding: 10px;
+    height: auto;
   }
 
   .nav-search {

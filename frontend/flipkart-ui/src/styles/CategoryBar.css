@@ -3,12 +3,21 @@
   justify-content: space-between;
   padding: 10px 40px;
   background: white;
+  position: sticky;
+  top: 60px;
+  z-index: 999;
+  border-bottom: 1px solid #eee;
 }
 
 .category-item {
   text-align: center;
   cursor: pointer;
   flex: 1;
+  transition: 0.2s;
+}
+
+.category-item:hover {
+  transform: scale(1.05);
 }
 
 .category-item img {
@@ -34,6 +43,7 @@
     gap: 20px;
     justify-content: flex-start;
     padding: 10px;
+    scroll-behavior: smooth;
   }
 
   .category-bar::-webkit-scrollbar {
